@@ -11,9 +11,10 @@ NUM_HEADS = 6
 # Per-layer units in the feed-forward network
 FF_DIM = 1024
 # Shuffle dataset dim on tf.data.Dataset
-SHUFFLE_DIM = 512
+SHUFFLE_DIM = 256
+
 # Batch size
-BATCH_SIZE = 64
+BATCH_SIZE = 16
 # Numbers of training epochs
 EPOCHS = 14
 
@@ -38,9 +39,11 @@ VALID_SET_AUG = False
 TEST_SET = False
 
 # Load train_data.json pathfile
-train_data_json_path = "COCO_dataset/captions_mapping_train.json"
+train_data_json_path = "COCO_dataset/train.json"
 # Load valid_data.json pathfile
-valid_data_json_path = "COCO_dataset/captions_mapping_valid.json"
+valid_data_json_path = "COCO_dataset/valid.json"
+# Load test_data.json pathfile
+test_data_json_path = "COCO_dataset/test.json"
 # Load text_data.json pathfile
 text_data_json_path  = "COCO_dataset/text_data.json"
 

@@ -1,18 +1,64 @@
 import tensorflow as tf
 from tensorflow.keras import layers
 from tensorflow import keras
-from tensorflow.keras.applications import efficientnet
+from tensorflow.keras.applications import efficientnet, ResNet50, ResNet101, MobileNetV2
 from settings import *
 
-def get_cnn_model():
-    base_model = efficientnet.EfficientNetB0(
-        input_shape=(*IMAGE_SIZE, 3), include_top=False, weights="imagenet",
-    )
+def get_cnn_model(model_name):
+    if model_name == 'EfficientNetB0':
+        base_model = efficientnet.EfficientNetB0(
+            input_shape=(*IMAGE_SIZE, 3), include_top=False, weights="imagenet"
+        )
+        reshape_value = 1280
+    elif model_name == 'EfficientNetB1':
+        base_model = efficientnet.EfficientNetB1(
+            input_shape=(*IMAGE_SIZE, 3), include_top=False, weights="imagenet"
+        )
+        reshape_value = 1280
+    elif model_name == 'EfficientNetB2':
+        base_model = efficientnet.EfficientNetB2(
+            input_shape=(*IMAGE_SIZE, 3), include_top=False, weights="imagenet"
+        )
+        reshape_value = 1280
+    elif model_name == 'EfficientNetB3':
+        base_model = efficientnet.EfficientNetB3(
+            input_shape=(*IMAGE_SIZE, 3), include_top=False, weights="imagenet"
+        )
+        reshape_value = 1280
+    elif model_name == 'EfficientNetB4':
+        base_model = efficientnet.EfficientNetB4(
+            input_shape=(*IMAGE_SIZE, 3), include_top=False, weights="imagenet"
+        )
+        reshape_value = 1280
+    elif model_name == 'EfficientNetB5':
+        base_model = efficientnet.EfficientNetB5(
+            input_shape=(*IMAGE_SIZE, 3), include_top=False, weights="imagenet"
+        )
+        reshape_value = 1280
+    elif model_name == 'ResNet50':
+        base_model = ResNet50(
+            input_shape=(*IMAGE_SIZE, 3), include_top=False, weights="imagenet"
+        )
+        reshape_value = 2048
+    elif model_name == 'ResNet101':
+        base_model = ResNet101(
+            input_shape=(*IMAGE_SIZE, 3), include_top=False, weights="imagenet"
+        )
+        reshape_value = 2048
+    elif model_name == 'MobileNetV2':
+        base_model = MobileNetV2(
+            input_shape=(*IMAGE_SIZE, 3), include_top=False, weights="imagenet"
+        )
+        reshape_value = 1280
+    else:
+        raise ValueError(f"Unsupported model name: {model_name}")
+    
     # Freeze feature extractor layers
     base_model.trainable = False
     base_model_out = base_model.output
-    base_model_out = layers.Reshape((-1, 1280))(base_model_out)
+    base_model_out = layers.Reshape((-1, reshape_value))(base_model_out)
     cnn_model = keras.models.Model(base_model.input, base_model_out)
+
     return cnn_model
 
 class TransformerEncoderBlock(layers.Layer):

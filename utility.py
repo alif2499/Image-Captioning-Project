@@ -15,7 +15,7 @@ def save_tokenizer(tokenizer, path_save):
     model = tf.keras.Model(input, output)
     model.save(path_save + "tokenizer", save_format='tf')
 
-def get_inference_model(model_config_path):
+def get_inference_model(model_config_path, model_name):
     with open(model_config_path) as json_file:
         model_config = json.load(json_file)
 
@@ -24,7 +24,7 @@ def get_inference_model(model_config_path):
     NUM_HEADS = model_config["NUM_HEADS"]
     VOCAB_SIZE = model_config["VOCAB_SIZE"]
 
-    cnn_model = get_cnn_model()
+    cnn_model = get_cnn_model(model_name)
     encoder = TransformerEncoderBlock(
         embed_dim=EMBED_DIM, dense_dim=FF_DIM, num_heads=NUM_HEADS
     )
